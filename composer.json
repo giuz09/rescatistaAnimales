@@ -1,0 +1,17 @@
+{
+    "description" : "CodeIgniter on Wings",
+    "name" : "salmander/ci-on-wings",
+    "license": "MIT",
+    "require": {
+        "ellislab/codeigniter": "3.*",
+        "illuminate/database": "5.1.*",
+        "illuminate/events": "5.1.*",
+        "knplabs/knp-snappy": "*"
+    },
+    "autoload": {
+        "classmap": [
+            "application/models",
+            "application/helpers"
+        ]   
+    }
+}

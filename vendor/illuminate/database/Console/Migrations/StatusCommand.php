@@ -2,7 +2,9 @@
 
 namespace Illuminate\Database\Console\Migrations;
 
+use Illuminate\Support\Collection;
 use Illuminate\Database\Migrations\Migrator;
+use Symfony\Component\Console\Input\InputOption;
 
 class StatusCommand extends BaseCommand
 {
@@ -47,19 +49,15 @@ class StatusCommand extends BaseCommand
      */
     public function fire()
     {
-        if (!$this->migrator->repositoryExists()) {
+        $this->migrator->setConnection($this->option('database'));
+
+        if (! $this->migrator->repositoryExists()) {
             return $this->error('No migrations found.');
         }
 
         $ran = $this->migrator->getRepository()->getRan();
 
-        $migrations = [];
-
-        foreach ($this->getAllMigrationFiles() as $migration) {
-            $migrations[] = in_array($migration, $ran) ? ['<info>Y</info>', $migration] : ['<fg=red>N</fg=red>', $migration];
-        }
-
-        if (count($migrations) > 0) {
+        if (count($migrations = $this->getStatusFor($ran)) > 0) {
             $this->table(['Ran?', 'Migration'], $migrations);
         } else {
             $this->error('No migrations found');
@@ -67,12 +65,44 @@ class StatusCommand extends BaseCommand
     }
 
     /**
-     * Get all of the migration files.
+     * Get the status for the given ran migrations.
+     *
+     * @param  array  $ran
+     * @return \Illuminate\Support\Collection
+     */
+    protected function getStatusFor(array $ran)
+    {
+        return Collection::make($this->getAllMigrationFiles())
+                    ->map(function ($migration) use ($ran) {
+                        $migrationName = $this->migrator->getMigrationName($migration);
+
+                        return in_array($migrationName, $ran)
+                                ? ['<info>Y</info>', $migrationName]
+                                : ['<fg=red>N</fg=red>', $migrationName];
+                    });
+    }
+
+    /**
+     * Get an array of all of the migration files.
      *
      * @return array
      */
     protected function getAllMigrationFiles()
     {
-        return $this->migrator->getMigrationFiles($this->getMigrationPath());
+        return $this->migrator->getMigrationFiles($this->getMigrationPaths());
+    }
+
+    /**
+     * Get the console command options.
+     *
+     * @return array
+     */
+    protected function getOptions()
+    {
+        return [
+            ['database', null, InputOption::VALUE_OPTIONAL, 'The database connection to use.'],
+
+            ['path', null, InputOption::VALUE_OPTIONAL, 'The path of migrations files to use.'],
+        ];
     }
 }

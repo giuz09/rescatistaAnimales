@@ -24,26 +24,28 @@ trait SoftDeletes
     /**
      * Force a hard delete on a soft deleted model.
      *
-     * @return void
+     * @return bool|null
      */
     public function forceDelete()
     {
         $this->forceDeleting = true;
 
-        $this->delete();
+        $deleted = $this->delete();
 
         $this->forceDeleting = false;
+
+        return $deleted;
     }
 
     /**
      * Perform the actual delete query on this model instance.
      *
-     * @return void
+     * @return mixed
      */
     protected function performDeleteOnModel()
     {
         if ($this->forceDeleting) {
-            return $this->withTrashed()->where($this->getKeyName(), $this->getKey())->forceDelete();
+            return $this->newQueryWithoutScopes()->where($this->getKeyName(), $this->getKey())->forceDelete();
         }
 
         return $this->runSoftDelete();
@@ -56,11 +58,21 @@ trait SoftDeletes
      */
     protected function runSoftDelete()
     {
-        $query = $this->newQuery()->where($this->getKeyName(), $this->getKey());
+        $query = $this->newQueryWithoutScopes()->where($this->getKeyName(), $this->getKey());
 
-        $this->{$this->getDeletedAtColumn()} = $time = $this->freshTimestamp();
+        $time = $this->freshTimestamp();
 
-        $query->update([$this->getDeletedAtColumn() => $this->fromDateTime($time)]);
+        $columns = [$this->getDeletedAtColumn() => $this->fromDateTime($time)];
+
+        $this->{$this->getDeletedAtColumn()} = $time;
+
+        if ($this->timestamps) {
+            $this->{$this->getUpdatedAtColumn()} = $time;
+
+            $columns[$this->getUpdatedAtColumn()] = $this->fromDateTime($time);
+        }
+
+        $query->update($columns);
     }
 
     /**
@@ -98,31 +110,7 @@ trait SoftDeletes
      */
     public function trashed()
     {
-        return !is_null($this->{$this->getDeletedAtColumn()});
-    }
-
-    /**
-     * Get a new query builder that includes soft deletes.
-     *
-     * @return \Illuminate\Database\Eloquent\Builder|static
-     */
-    public static function withTrashed()
-    {
-        return (new static)->newQueryWithoutScope(new SoftDeletingScope);
-    }
-
-    /**
-     * Get a new query builder that only includes soft deletes.
-     *
-     * @return \Illuminate\Database\Eloquent\Builder|static
-     */
-    public static function onlyTrashed()
-    {
-        $instance = new static;
-
-        $column = $instance->getQualifiedDeletedAtColumn();
-
-        return $instance->newQueryWithoutScope(new SoftDeletingScope)->whereNotNull($column);
+        return ! is_null($this->{$this->getDeletedAtColumn()});
     }
 
     /**
@@ -145,6 +133,16 @@ trait SoftDeletes
     public static function restored($callback)
     {
         static::registerModelEvent('restored', $callback);
+    }
+
+    /**
+     * Determine if the model is currently force deleting.
+     *
+     * @return bool
+     */
+    public function isForceDeleting()
+    {
+        return $this->forceDeleting;
     }
 
     /**

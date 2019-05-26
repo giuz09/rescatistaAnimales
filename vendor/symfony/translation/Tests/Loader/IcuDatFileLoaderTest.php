@@ -11,18 +11,14 @@
 
 namespace Symfony\Component\Translation\Tests\Loader;
 
-use Symfony\Component\Translation\Loader\IcuDatFileLoader;
 use Symfony\Component\Config\Resource\FileResource;
+use Symfony\Component\Translation\Loader\IcuDatFileLoader;
 
+/**
+ * @requires extension intl
+ */
 class IcuDatFileLoaderTest extends LocalizedTestCase
 {
-    protected function setUp()
-    {
-        if (!extension_loaded('intl')) {
-            $this->markTestSkipped('This test requires intl extension to work.');
-        }
-    }
-
     /**
      * @expectedException \Symfony\Component\Translation\Exception\InvalidResourceException
      */
@@ -41,9 +37,9 @@ class IcuDatFileLoaderTest extends LocalizedTestCase
         $resource = __DIR__.'/../fixtures/resourcebundle/dat/resources';
         $catalogue = $loader->load($resource, 'en', 'domain1');
 
-        $this->assertEquals(array('symfony' => 'Symfony 2 is great'), $catalogue->all('domain1'));
+        $this->assertEquals(['symfony' => 'Symfony 2 is great'], $catalogue->all('domain1'));
         $this->assertEquals('en', $catalogue->getLocale());
-        $this->assertEquals(array(new FileResource($resource.'.dat')), $catalogue->getResources());
+        $this->assertEquals([new FileResource($resource.'.dat')], $catalogue->getResources());
     }
 
     public function testDatFrenchLoad()
@@ -52,9 +48,9 @@ class IcuDatFileLoaderTest extends LocalizedTestCase
         $resource = __DIR__.'/../fixtures/resourcebundle/dat/resources';
         $catalogue = $loader->load($resource, 'fr', 'domain1');
 
-        $this->assertEquals(array('symfony' => 'Symfony 2 est génial'), $catalogue->all('domain1'));
+        $this->assertEquals(['symfony' => 'Symfony 2 est génial'], $catalogue->all('domain1'));
         $this->assertEquals('fr', $catalogue->getLocale());
-        $this->assertEquals(array(new FileResource($resource.'.dat')), $catalogue->getResources());
+        $this->assertEquals([new FileResource($resource.'.dat')], $catalogue->getResources());
     }
 
     /**

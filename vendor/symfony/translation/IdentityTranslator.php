@@ -15,8 +15,6 @@ namespace Symfony\Component\Translation;
  * IdentityTranslator does not translate anything.
  *
  * @author Fabien Potencier <fabien@symfony.com>
- *
- * @api
  */
 class IdentityTranslator implements TranslatorInterface
 {
@@ -24,11 +22,7 @@ class IdentityTranslator implements TranslatorInterface
     private $locale;
 
     /**
-     * Constructor.
-     *
      * @param MessageSelector|null $selector The message selector for pluralization
-     *
-     * @api
      */
     public function __construct(MessageSelector $selector = null)
     {
@@ -37,8 +31,6 @@ class IdentityTranslator implements TranslatorInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @api
      */
     public function setLocale($locale)
     {
@@ -47,8 +39,6 @@ class IdentityTranslator implements TranslatorInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @api
      */
     public function getLocale()
     {
@@ -57,20 +47,16 @@ class IdentityTranslator implements TranslatorInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @api
      */
-    public function trans($id, array $parameters = array(), $domain = null, $locale = null)
+    public function trans($id, array $parameters = [], $domain = null, $locale = null)
     {
         return strtr((string) $id, $parameters);
     }
 
     /**
      * {@inheritdoc}
-     *
-     * @api
      */
-    public function transChoice($id, $number, array $parameters = array(), $domain = null, $locale = null)
+    public function transChoice($id, $number, array $parameters = [], $domain = null, $locale = null)
     {
         return strtr($this->selector->choose((string) $id, (int) $number, $locale ?: $this->getLocale()), $parameters);
     }

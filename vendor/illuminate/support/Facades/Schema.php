@@ -3,6 +3,11 @@
 namespace Illuminate\Support\Facades;
 
 /**
+ * @method static \Illuminate\Database\Schema\Builder create(string $table, \Closure $callback)
+ * @method static \Illuminate\Database\Schema\Builder drop(string $table)
+ * @method static \Illuminate\Database\Schema\Builder dropIfExists(string $table)
+ * @method static \Illuminate\Database\Schema\Builder table(string $table, \Closure $callback)
+ *
  * @see \Illuminate\Database\Schema\Builder
  */
 class Schema extends Facade
@@ -19,9 +24,9 @@ class Schema extends Facade
     }
 
     /**
-     * Get the registered name of the component.
+     * Get a schema builder instance for the default connection.
      *
-     * @return string
+     * @return \Illuminate\Database\Schema\Builder
      */
     protected static function getFacadeAccessor()
     {

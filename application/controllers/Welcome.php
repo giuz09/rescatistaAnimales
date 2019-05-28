@@ -8,6 +8,7 @@ class Welcome extends CI_Controller {
         parent::__construct();
 		$this->load->library(array('session'));
 		$this->load->helper(array('url'));
+		$this->load->model('rescatista');
     }
 	/**
 	 * Index Page for this controller.
@@ -26,28 +27,13 @@ class Welcome extends CI_Controller {
 	 */
 	public function index()
 	{
-		switch ($this->session->userdata('tipoUsuario')) {
-			case '':
-				$data['nombre'] = "";
-				$data['user'] = "";
-				$data['tipoUsuario'] = '';
-				$this->load->view('welcome_message', $data);
-				break;
-			case '1': //cliente
-				$data['nombre'] = $this->session->userdata('nombre');
-				$data['user'] = $this->session->userdata('user');
-				$data['tipoUsuario'] = '1';
-				$this->load->view('welcome_message', $data);
-				break;	
-			case '2': //administrador
-				$data['nombre'] = $this->session->userdata('nombre');
-				$data['user'] = $this->session->userdata('user');
-				$data['tipoUsuario'] = '2';
-				$this->load->view('welcome_message', $data);
-				break;
-			default:		
-				$this->load->view('welcome_message');
-				break;	
+		if ($this->session->userdata('dni')) {
+			$data['nombre'] = $this->session->userdata('nombre');
+			$data['dni'] = $this->session->userdata('user');
+			$data['id'] = $this->session->userdata('id');
+			$this->load->view('index', $data);
+		}else{
+			$this->load->view('index');
 		}
 	}
 }

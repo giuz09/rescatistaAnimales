@@ -33,7 +33,9 @@ class Welcome extends CI_Controller {
 			$data['id'] = $this->session->userdata('id');
 			$this->load->view('index', $data);
 		}else{
+			$this->load->view('header');
 			$this->load->view('index');
+			$this->load->view('footer');
 		}
 	}
 }

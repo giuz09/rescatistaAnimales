@@ -30,7 +30,24 @@ class Animales extends CI_Controller {
 	{
 		//$data['nombre'] = $this->session->userdata('nombre');
 		//$data['Rutaimg'] = "assets/img/avatar.jpg"; //$data['nombre'] = $this->session->userdata('imgRoute');
-		$this->load->view('clientes');
+		
+
+		//FORMA FACIL JAJA
+		/**
+		$this->load->library('grocery_CRUD');
+		$this->load->database();
+		$this->grocery_crud->set_table('animales');
+		$output = $this->grocery_crud->render();
+		$this->load->view('header');
+		$this->load->view('example',$output);
+		$this->load->view('footer');
+		**/
+
+		//FORMA DIFICIL Y ELEGANTE JAJA
+		$data['animales']=$this->animal->get();
+		$this->load->view('header');
+		$this->load->view('animales/listaAnimales',$data);
+		$this->load->view('footer');
 	}
 
 	public function agregarDocente($data = NULL)

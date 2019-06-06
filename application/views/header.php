@@ -41,9 +41,9 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item active">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="<?php echo base_url();?>index.php">
           <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Dashboard</span></a>
+          <span>Inicio</span></a>
       </li>
 
       <!-- Divider -->
@@ -56,27 +56,28 @@
 
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-          <i class="fas fa-fw fa-cog"></i>
-          <span>Solicitudes</span>
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAdopciones" aria-expanded="true" aria-controls="collapseAdopciones">
+          <i class="fas fa-fw fa-bars"></i>
+          <span>Adopciones</span>
         </a>
-      </li>
-
-      <!-- Nav Item - Utilities Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
-          <i class="fa fa-paw" aria-hidden="true"></i>
-          <span>Animales</span>
-        </a>
-        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+        <div id="collapseAdopciones" class="collapse" aria-labelledby="headingAdopciones" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Gestion Animales:</h6>
-            <a class="collapse-item" href="<?php echo base_url();?>index.php/Animales">Agregar</a>
-            <a class="collapse-item" href="<?php echo base_url();?>index.php/Animales">Buscar</a>
+            <a class="collapse-item" href="<?php echo base_url();?>index.php/Adopciones">Adopciones</a>
+            <div class="collapse-divider"></div>
+            <a class="collapse-item" href="<?php echo base_url();?>index.php/Adopciones/solicitudes">Solicitudes</a>
           </div>
         </div>
       </li>
 
+      <!-- Nav Item - Utilities Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link" href="<?php echo base_url();?>index.php/Animales">
+          <i class="fa fa-paw" aria-hidden="true"></i>
+          <span>Animales</span>
+        </a>
+      </li>
+
+<?php /**
       <!-- Divider -->
       <hr class="sidebar-divider">
 
@@ -84,6 +85,7 @@
       <div class="sidebar-heading">
         Addons
       </div>
+
 
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
@@ -126,9 +128,11 @@
       <div class="text-center d-none d-md-inline">
         <button class="rounded-circle border-0" id="sidebarToggle"></button>
       </div>
-
+*/
+?>
     </ul>
     <!-- End of Sidebar -->
+
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
@@ -143,6 +147,7 @@
           <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
             <i class="fa fa-bars"></i>
           </button>
+
 
           <!-- Topbar Search -->
           <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">

@@ -27,15 +27,16 @@ class Welcome extends CI_Controller {
 	 */
 	public function index()
 	{
-		if ($this->session->userdata('dni')) {
+		if ($this->session->userdata('is_logued_in')) {
 			$data['nombre'] = $this->session->userdata('nombre');
-			$data['dni'] = $this->session->userdata('user');
+			$data['apellido'] = $this->session->userdata('apellido');
+			$data['dni'] = $this->session->userdata('dni');
 			$data['id'] = $this->session->userdata('id');
-			$this->load->view('index', $data);
-		}else{
-			$this->load->view('header');
+			$this->load->view('header', $data);
 			$this->load->view('index');
 			$this->load->view('footer');
+		}else{
+			redirect(base_url().'index.php/login');
 		}
 	}
 }

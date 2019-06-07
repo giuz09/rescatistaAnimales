@@ -44,10 +44,20 @@ class Animales extends CI_Controller {
 		**/
 
 		//FORMA DIFICIL Y ELEGANTE JAJA
-		$data['animales']=$this->animal->get();
-		$this->load->view('header');
-		$this->load->view('animales/listaAnimales',$data);
-		$this->load->view('footer');
+		
+		if ($this->session->userdata('is_logued_in')) {
+			$data['nombre'] = $this->session->userdata('nombre');
+			$data['apellido'] = $this->session->userdata('apellido');
+			$data['dni'] = $this->session->userdata('dni');
+			$data['id'] = $this->session->userdata('id');
+			$data['animales']=$this->animal->get();
+
+			$this->load->view('header', $data);
+			$this->load->view('animales/listaAnimales',$data);
+			$this->load->view('footer');
+		}else{
+			redirect(base_url().'index.php/login');
+		}
 	}
 
 	public function agregarDocente($data = NULL)

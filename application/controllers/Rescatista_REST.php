@@ -61,7 +61,11 @@ class Rescatista_rest extends REST_Controller{
 	function rescatistas_get()
 	{
 	    $result = []; 
-	    $estado = $this->get('estado');   
+	    if ($this->get('estado')) {
+	    	$estado=$this->get('estado');  
+	    }else{
+	    	$estado='';
+	    }  
 	    $this->load->model('rescatista');
 	    if ($estado!='') {
 	    	$rescatistas=Rescatista::where('estado',$estado)->get();
@@ -83,7 +87,7 @@ class Rescatista_rest extends REST_Controller{
     	$this->response($result, 200);
 	}
 
-	function listaAutos_get()
+	function animales_get()
 	{
 	    $result = []; 
 	    $estado = $this->get('estado');   
@@ -107,35 +111,6 @@ class Rescatista_rest extends REST_Controller{
 	    }
     	$this->response($result, 200);
 	}
-
-
-	function auto_post()
-	{  
-		$result= [];
-	    $dniDuenio = $this->post('dni');
-	    $patente = $this->post('patente');
-	    $marca = $this->post('marca');
-	    $modelo = $this->post('modelo');
-	    $anio = $this->post('anio');
-	    $tipo = $this->post('tipo');
-	    $this->load->model('auto');
-	    $resu = $this->auto->alta($patente, $marca, $modelo, $anio, $tipo, $dniDuenio);
-	    if ($resu['valido']==1)
-	    {
-	        $result['codigoRespuesta']= 0;
-	        $result['mensajeRespuesta'] = 'Se agrego el auto correctamente a '.$dniDuenio;
-	        $result['errores']    = null;
-	        $this->response($result, 201);
-	    }
-	    else
-	    {
-	        $result['codigoRespuesta']    = 1;
-	        $result['mensajeRespuesta'] = 'Hubo un error';
-	        $result['errores']   =  $resu;
-	        $this->response($result, 400);
-	    }
-	}
-
 }
 
 

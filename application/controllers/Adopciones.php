@@ -32,10 +32,19 @@ class Adopciones extends CI_Controller {
 		//$data['Rutaimg'] = "assets/img/avatar.jpg"; //$data['nombre'] = $this->session->userdata('imgRoute');
 
 		//$data['adopciones']=$this->getAdopciones(); PEDIR ADOPCIONES AL SISTEMA DE ADOPTANTES
-		$data['adopciones']=null;
-		$this->load->view('header');
-		$this->load->view('adopciones/adopciones',$data);
-		$this->load->view('footer');
+		if ($this->session->userdata('is_logued_in')) {
+			$data['nombre'] = $this->session->userdata('nombre');
+			$data['apellido'] = $this->session->userdata('apellido');
+			$data['dni'] = $this->session->userdata('dni');
+			$data['id'] = $this->session->userdata('id');
+			$data['adopciones']=null;
+
+			$this->load->view('header', $data);
+			$this->load->view('adopciones/adopciones',$data);
+			$this->load->view('footer');
+		}else{
+			redirect(base_url().'index.php/login');
+		}
 	}
 
 	public function solicitudes($data = NULL)
@@ -44,9 +53,18 @@ class Adopciones extends CI_Controller {
 		//$data['Rutaimg'] = "assets/img/avatar.jpg"; //$data['nombre'] = $this->session->userdata('imgRoute');
 
 		//$data['solicitudes']=$this->getSolicitudes($idRescatista); PEDIR SOLICITUDES DE ADOPCION PARA ANIMALES DE ESTE RESCATISTA AL SISTEMA DE ADOPTANTES
-		$data['solicitudes']=null;
-		$this->load->view('header');
-		$this->load->view('adopciones/solicitudes',$data);
-		$this->load->view('footer');
+		if ($this->session->userdata('is_logued_in')) {
+			$data['nombre'] = $this->session->userdata('nombre');
+			$data['apellido'] = $this->session->userdata('apellido');
+			$data['dni'] = $this->session->userdata('dni');
+			$data['id'] = $this->session->userdata('id');
+			$data['solicitudes']=null;
+
+			$this->load->view('header', $data);
+			$this->load->view('adopciones/solicitudes',$data);
+			$this->load->view('footer');
+		}else{
+			redirect(base_url().'index.php/login');
+		}
 	}
 }

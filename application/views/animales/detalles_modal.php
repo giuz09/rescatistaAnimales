@@ -1,6 +1,6 @@
 <!-- Modal -->
-<div class="modal fade" id="detalles_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+<div class="modal fade bd-example-modal-lg" id="detalles_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Detalles de la Mascota</h5>
@@ -9,11 +9,9 @@
         </button>
       </div>
       <div class="modal-body">
-        <div>
+        <div class="row">
+        <div class="col-md-6">
           <h1>Nombre:<span id="nombre"></span></h1>
-        <div>
-          <img class="img-fluid" id="foto" src="">
-        </div>
           <p>Especie:<span id="especie"></span></p>
           <p>Raza:<span id="raza"></span></p>
           <p>Descripción:<span id="descripcion"></span></p>
@@ -23,7 +21,10 @@
           <p>Estado:<span id="estado"></span></p>
           <p>Dueño:<span id="dueño"></span></p>
         </div>
-        
+        <div class="col-md-6">
+          <img class="img-fluid" id="foto" src="">
+        </div>
+      </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

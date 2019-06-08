@@ -31,9 +31,9 @@
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
         <div class="sidebar-brand-icon rotate-n-15">
-          <i class="fas fa-laugh-wink"></i>
+          <i class="fa fa-bug"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+        <div class="sidebar-brand-text mx-3">SHIELD <sup>pet</sup></div>
       </a>
 
       <!-- Divider -->
@@ -289,7 +289,7 @@
               </div>
             </li>
 **/ ?>
-            <div class="col-md-10">
+            <div class="col-md-9">
               <h2>Sistema para Rescatistas de Mascotas</h2>
             </div>
             <div class="topbar-divider d-none d-sm-block"></div>
@@ -297,7 +297,8 @@
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $nombre." ".$apellido;?></span>
+                <span class="mr-2 d-none d-lg-inline text-gray-600 "><?php echo $nombre." ".$apellido;?></span>
+                <i style="font-size:40px;" class="fa fa-child fa-5" aria-hidden="true"></i>
               </a>
               <!-- Dropdown - User Information -->
                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">

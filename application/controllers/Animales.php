@@ -91,7 +91,7 @@ class Animales extends CI_Controller {
                         $error['error']=FALSE;
                     }else{
                     	$error['error']=TRUE;
-                        $error['foto']="No se pudo cargar la foto ".$_FILES['userFile']['name'].". Errores:".$this->upload->display_errors();
+                        $error['foto']="No se pudo cargar la foto ".$_FILES['foto']['name'].". Errores:".$this->upload->display_errors();
                     }
                }else{
                		$error['error']=TRUE;

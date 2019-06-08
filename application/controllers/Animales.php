@@ -53,72 +53,113 @@ class Animales extends CI_Controller {
 			$data['animales']=$this->animal->get();
 
 			$this->load->view('header', $data);
-			$this->load->view('animales/listaAnimales',$data);
+			$this->load->view('animales/listaAnimales');
+			$this->load->view('footer');
+			$this->load->view('animales/detalles_modal');
+		}else{
+			redirect(base_url().'index.php/login');
+		}
+	}
+
+	public function nuevo()
+	{
+		if ($this->session->userdata('is_logued_in')) {
+			$data['nombre'] = $this->session->userdata('nombre');
+			$data['apellido'] = $this->session->userdata('apellido');
+			$data['dni'] = $this->session->userdata('dni');
+			$data['id'] = $this->session->userdata('id');
+			
+			if($this->input->post('nombre')){
+				$animal=array(
+					'nombre' => $this->input->post('nombre'),
+					'especie' => $this->input->post('especie'),
+					'raza' => $this->input->post('raza'),
+					'sexo' => $this->input->post('sexo'),
+					'descripcion' => $this->input->post('descripcion'),
+					'fechaNacimiento' => $this->input->post('fechaNacimiento')
+				);
+				//GUARDAR FOTO
+				if (!empty($_FILES['foto']['name'])) {
+                    $config['upload_path'] = 'uploads';
+                    $config['allowed_types'] = 'jpg|jpeg|png|gif';
+
+                    $this->load->library('upload', $config);
+                    $this->upload->initialize($config);
+                    if($this->upload->do_upload('foto')){
+                        $fileData = $this->upload->data();
+                        $animal['foto'] = $fileData['file_name'];
+                        $error['error']=FALSE;
+                    }else{
+                    	$error['error']=TRUE;
+                        $error['foto']="No se pudo cargar la foto ".$_FILES['userFile']['name'].". Errores:".$this->upload->display_errors();
+                    }
+               }else{
+               		$error['error']=TRUE;
+                    $error['foto']="No se cargó la foto";
+               }
+               //TERMINA GUARDAR FOTO
+               if (!$error['error']) {
+               		$nuevo=new Animal();
+               		$nuevo->nombre=$animal['nombre'];
+               		$nuevo->especie=$animal['especie'];
+               		$nuevo->raza=$animal['raza'];
+               		$nuevo->descripcion=$animal['descripcion'];
+               		$nuevo->sexo=$animal['sexo'];
+               		$nuevo->fechaNacimiento=$animal['fechaNacimiento'];
+               		$nuevo->foto=$animal['foto'];
+               		$nuevo->fechaRegistro=date("Y-m-d H:i:s");
+               		$nuevo->estado=1;
+               		$nuevo->idDueño=$data['id'];
+               		$nuevo->save();
+               		redirect(base_url()."index.php/Animales");
+               }else{
+               		$data['error']=$error;
+               }
+
+			}else{
+				$data['error']['error']=FALSE;
+				$animal=array(
+					'nombre' => NULL, 
+					'especie' => NULL,
+					'raza' => NULL,
+					'descripcion' => NULL,
+					'fechaNacimiento' => NULL,
+					'foto' => NULL,
+					'sexo' => NULL
+				);
+			}
+			$data['animal']=$animal;
+			$this->load->view('header', $data);
+			$this->load->view('animales/nuevoAnimal',$data);
 			$this->load->view('footer');
 		}else{
 			redirect(base_url().'index.php/login');
 		}
 	}
 
-	public function agregarDocente($data = NULL)
+	public function darBaja($idAnimal)
 	{
-		switch ($this->session->userdata('tipoUsuario')) {
-			case '':
-				redirect(base_url().'login');
-				break;
-			case '1': //operario
-				$data['nombre'] = $this->session->userdata('nombre');
-				//$data['Rutaimg'] = "assets/img/avatar.jpg"; //$data['nombre'] = $this->session->userdata('imgRoute');
-				$this->load->view('includes/header_view_operario',$data);
-				$this->load->view('/agregar_docente');
-				break;	
-			case '2': //docente
-				redirect(base_url().'welcome');
-				break;
-			case '3': //supervisor
-				redirect(base_url().'welcome');
-				break;
-			default:		
-				redirect(base_url().'login');
-				break;		
+		if ($this->session->userdata('is_logued_in')) {
+			$animal=Animal::find($idAnimal);
+			$animal->estado=0;
+			$animal->update();
+			redirect(base_url().'index.php/Animales');
+		}else{
+			redirect(base_url().'index.php/login');
 		}
 	}
 
-	public function agregarCliente(){
-		$resu=$this->usuario->alta
-			(
-				$this->input->post('dni'), 
-				$this->input->post('nombreApellido'), 
-				$this->input->post('email'), 
-				$this->input->post('pass') 
-			); 
-		$data="";
-		if ($resu["valido"]==0){ //datos invalidos
-			$resu["valido"]='';
-			foreach ($resu as $error) {
-				$data=$data."<br> ".$error;
-			}
-		}else{ 					//datos validos
-			$data='ok';
+	public function getAnimal($idAnimal)
+	{
+		$animal=Animal::find($idAnimal);
+		if ($animal!=NULL) {
+			$response=json_encode($animal);
+		}else{
+			$response=NULL;
 		}
-		
-		echo $data;
+		echo $response;
 	}
 
-	public function modificarDocente(){
-		$resu=$this->usuario->modDocente
-			(
-				$this->input->post('txtNombre'), 
-				$this->input->post('txtApellido'), 
-				$this->input->post('txtTelefono'), 
-				$this->input->post('txtEmail'), 
-				$this->input->post('nmbDni')
-			); 
-	}
-	public function bajaDocente()
-	{
-		$reserva=$this->usuario->where('dni',$this->input->post('dni'))->update(array('estado'=>'0'));
-	}
 	public function reactivarDocente()
 	{
 		$reserva=$this->usuario->where('dni',$this->input->post('dni'))->update(array('estado'=>'1'));

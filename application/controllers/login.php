@@ -57,7 +57,7 @@ class Login extends CI_Controller {
 				if($check_user != FALSE){
 					$data = array(
 	                'is_logued_in' 	=> 		TRUE,
-	                'id'			=>		$check_user->id,
+	                'id'			=>		$check_user->idRescatista,
 	                'dni' 			=> 		$dni,
 	                'nombre' 		=> 		$check_user->nombre,
 	                'apellido' 		=> 		$check_user->apellido

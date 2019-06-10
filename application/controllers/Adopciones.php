@@ -67,4 +67,16 @@ class Adopciones extends CI_Controller {
 			redirect(base_url().'index.php/login');
 		}
 	}
+
+	public function getAdoptante($idAdoptante)
+	{
+		$adoptante=Adoptante::find($idAdoptante);
+		if ($adoptante!=NULL) {
+			$response=json_encode($idAdoptante);
+		}else{
+			$response=NULL;
+		}
+		echo $response;
+	}
+
 }

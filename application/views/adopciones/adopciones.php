@@ -45,6 +45,8 @@
 					Nadita
 						";
 			}
+			echo ('<td><button type="button" class="btn btn-primary" data-toggle="modal" onclick="detalles('.$solicitud->idAdoptante.')">
+  				<span class="fa fa-eye" aria-hidden="true"></button></td>');
 			echo ("<td>".$estado."</td>");
 			echo ("<td>".$botones."</td>");
 			echo ("</tr>");

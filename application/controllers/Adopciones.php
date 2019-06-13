@@ -59,10 +59,11 @@ class Adopciones extends CI_Controller {
 			$data['dni'] = $this->session->userdata('dni');
 			$data['id'] = $this->session->userdata('id');
 			$data['solicitudes']=null;
-
 			$this->load->view('header', $data);
 			$this->load->view('adopciones/solicitudes',$data);
 			$this->load->view('footer');
+			$this->load->view('animales/detalles_modal');
+			$this->load->view('adopciones/perfil_modal');
 		}else{
 			redirect(base_url().'index.php/login');
 		}

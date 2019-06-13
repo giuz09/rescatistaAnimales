@@ -30,7 +30,7 @@ class Adoptantes extends CI_Controller {
 			$data['id'] = $this->session->userdata('id');
 			$this->load->view('index', $data);
 		}else{
-			$this->load->view('welcome_message');
+			redirect(base_url().'index.php/login');
 		}
 	}
 
@@ -49,10 +49,48 @@ class Adoptantes extends CI_Controller {
 	     
 	    return $campañas;
 	    **/
-	    $respuesta = curl_init();
+	    
+	    /**$respuesta = curl_init();
 	    curl_setopt($respuesta,  CURLOPT_USERAGENT , "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)"); 
 	    curl_setopt($respuesta, CURLOPT_URL, "http://localhost/rescatistaAnimales/index.php/Rescatista_REST/animales");
 	    curl_exec($respuesta);
-	    curl_close($respuesta); 
+	    curl_close($respuesta); **/
+
+	    $response=
+			'{"data":
+				{
+					"id_usuario":4,
+					"id_animal":4,
+					"id_adopcion":1,
+					"estado":1,
+					"detalle_adopcion":"Nada",
+					"fecha_adopcion":"2017-03-10"
+				}
+			}';
+		echo $response;
+	}
+
+	public function getAdoptante($idAdoptante)
+	{
+		/**
+		$respuesta = curl_init();
+	    curl_setopt($respuesta,  CURLOPT_USERAGENT , "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)"); 
+	    curl_setopt($respuesta, CURLOPT_URL, "http://localhost/rescatistaAnimales/index.php/Rescatista_REST/getAdoptante/".$idAdoptante);
+	    curl_exec($respuesta);
+	    curl_close($respuesta);
+	    **/
+		$response=
+			'{
+				"idAdoptante":4,
+				"nombre":"Ramiro",
+				"apellido":"Muñoz",
+				"dni":"29435343",
+				"direccion":"Av. Tehuelches 342",
+				"fechaNacimiento":"1990-03-10",
+				"email":"ramuñoz@hotmail.com",
+				"foto":"patio.jpg",
+				"telefono":"2973434245"
+			}';
+		echo $response;
 	}
 }

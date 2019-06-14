@@ -51,7 +51,7 @@
 
       <!-- Heading -->
       <div class="sidebar-heading">
-        Interface
+        Opciones
       </div>
 
       <!-- Nav Item - Pages Collapse Menu -->
@@ -290,7 +290,7 @@
             </li>
 **/ ?>
             <div class="col-md-9">
-              <h2>Sistema para Rescatistas de Mascotas</h2>
+              <h2>Rescatistas de Mascotas</h2>
             </div>
             <div class="topbar-divider d-none d-sm-block"></div>
           <ul class="navbar-nav ml-auto">

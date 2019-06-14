@@ -58,14 +58,22 @@ class Adoptantes extends CI_Controller {
 
 	    $response=
 			'{"data":
-				{
+				[{
 					"id_usuario":4,
 					"id_animal":4,
 					"id_adopcion":1,
 					"estado":1,
 					"detalle_adopcion":"Nada",
 					"fecha_adopcion":"2017-03-10"
-				}
+				},
+				{
+					"id_usuario":7,
+					"id_animal":4,
+					"id_adopcion":2,
+					"estado":1,
+					"detalle_adopcion":"Algo",
+					"fecha_adopcion":"2019-03-10"
+				}]
 			}';
 		echo $response;
 	}
@@ -91,6 +99,22 @@ class Adoptantes extends CI_Controller {
 				"foto":"patio.jpg",
 				"telefono":"2973434245"
 			}';
+		echo $response;
+	}
+
+	public function contestarSolicitud($id_adopcion, $estado){
+		$respuesta = curl_init();
+	    curl_setopt($respuesta,  CURLOPT_USERAGENT , "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)"); 
+	    curl_setopt($respuesta, CURLOPT_URL, "http://localhost/rescatistaAnimales/index.php/Rescatista_REST/adopcion");
+	    curl_setopt($respuesta, CURLOPT_POST, 1);
+		curl_setopt($respuesta, CURLOPT_POSTFIELDS, "id_adopcion=".$id_adopcion."&estado=".$estado.";");
+	    curl_exec($respuesta);
+	    if (curl_error($respuesta)) {
+    		$response = curl_error($respuesta);
+		}else{
+			$response = "";
+		}
+		curl_close($respuesta);
 		echo $response;
 	}
 }

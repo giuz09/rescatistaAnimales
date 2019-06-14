@@ -58,7 +58,6 @@ class Adopciones extends CI_Controller {
 			$data['apellido'] = $this->session->userdata('apellido');
 			$data['dni'] = $this->session->userdata('dni');
 			$data['id'] = $this->session->userdata('id');
-			$data['solicitudes']=null;
 			$this->load->view('header', $data);
 			$this->load->view('adopciones/solicitudes',$data);
 			$this->load->view('footer');

@@ -111,6 +111,28 @@ class Rescatista_rest extends REST_Controller{
 	    }
     	$this->response($result, 200);
 	}
+
+	//Operacion de modificacion de estado del rescatista
+	//Requiere dos parametros:
+	//	'dni' con el dni del rescatista a modificar
+	//	'estado' con el nuevo estado del rescatista
+	function adopcion_post()
+	{
+	    $result = [];    
+	    $id_adopcion = $this->post('id_adopcion');		//Recupera los parametros
+	    $estado = $this->post('estado');//Recupera los parametros
+			if ($estado==2) {
+				$result['codigoRespuesta']= 0;
+	        	$result['mensajeRespuesta'] = 'Adopcion aprobada';
+			}elseif ($estado==0) {
+				$result['codigoRespuesta']= 0;
+	        	$result['mensajeRespuesta'] = 'Adopcion denegada';
+			}else{
+				$result['codigoRespuesta']    = 1;
+	        	$result['mensajeRespuesta'] = 'No se encontró';
+			}
+    	$this->response($result, 200);
+	}
 }
 
 

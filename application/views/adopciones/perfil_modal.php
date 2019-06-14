@@ -3,7 +3,7 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Detalles de la Mascota</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Perfil del Adoptante</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -39,17 +39,20 @@
       success : (function (data) {
         solicitudes=JSON.parse(data);
         $('contenidoSoli').html("");
+        solicitudes=solicitudes['data'];
         for (var clave in solicitudes){
           if (solicitudes.hasOwnProperty(clave)) {
+            var contenido=$('#contenidoSoli').html();
             $('#contenidoSoli').html(
+              contenido+
               '<tr>'+
                 '<td>'+solicitudes[clave]['id_adopcion']+'</td>'+
-                '<td><button class="btn btn-primary" onclick="perfil('+solicitudes[clave]['id_usuario']+')">Ver</button></td>'+
-                '<td><button class="btn btn-primary" onclick="detalles('+solicitudes[clave]['id_animal']+')">Ver</button></td>'+
+                '<td><button class="btn btn-primary" onclick="perfil('+solicitudes[clave]['id_usuario']+')">Perfil</button></td>'+
+                '<td><button class="btn btn-secondary" onclick="detalles('+solicitudes[clave]['id_animal']+')">Detalles</button></td>'+
                 '<td>'+solicitudes[clave]['fecha_adopcion']+'</td>'+
                 '<td>'+solicitudes[clave]['detalle_adopcion']+'</td>'+
                 '<td>'+solicitudes[clave]['estado']+'</td>'+
-                '<td>Aprobar</td>'+
+                '<td><button class="btn btn-success" onclick="contestar('+solicitudes[clave]['id_adopcion']+',2)">Autorizar</button><button class="btn btn-danger" onclick="contestar('+solicitudes[clave]['id_adopcion']+',0)">Denegar</button></td>'+
               '</tr>'
               );
           }
@@ -79,5 +82,25 @@
       })
     });
     $('#perfil_modal').modal('toggle');
+  }
+
+ 
+</script>
+<script type="text/javascript">
+   function contestar(id,estado) {
+    
+    $.ajax({
+      url     : "<?php echo base_url();?>index.php/Adoptantes/contestarSolicitud/"+id+"/"+estado,
+      type    : "get",
+      success : (function (data) {
+        data=JSON.parse(data);
+        if(data.codigoRespuesta==0){
+          alert("Todo Bien! "+data.mensajeRespuesta);
+          location.reload();
+        }else{
+          alert("Todo Mal! "+data.mensajeRespuesta);
+        }
+      })
+    });
   }
 </script>

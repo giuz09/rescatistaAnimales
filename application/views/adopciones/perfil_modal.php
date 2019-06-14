@@ -20,7 +20,19 @@
           <p>Telefono:<span id="telefonoAdo"></span></p>
         </div>
         <div class="col-md-6">
-          <img class="img-fluid" id="fotoAdo" src="">
+          <div class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner" id="fotoAdo">
+              
+            </div>
+            <a class="carousel-control-prev" onClick="prev()" role="button" data-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="sr-only">Anterior</span>
+            </a>
+            <a class="carousel-control-next" onClick="next()" role="button" data-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="sr-only">Siguiente</span>
+            </a>
+          </div>
         </div>
       </div>
       </div>
@@ -32,6 +44,8 @@
 </div>
 
 <script type="text/javascript">
+  
+
   $(document).ready (function() {
     $.ajax({
       url     : "<?php echo base_url();?>index.php/Adoptantes/obtenerSolicitudes/",
@@ -74,7 +88,26 @@
           $('#direccionAdo').html(adoptante.direccion);
           $('#fechaNacimientoAdo').html(adoptante.fechaNacimiento);
           $('#emailAdo').html(adoptante.email);
-          $('#fotoAdo').attr( "src",'<?php echo base_url();?>uploads/'+adoptante.foto);
+          $('#fotoAdo').html("");
+          for (var clave in adoptante.foto){
+            var contenido=$('#fotoAdo').html();
+            if (clave==0) {
+              $('#fotoAdo').html(
+                contenido+
+                '<div class="carousel-item active">'+
+                  '<img class="d-block w-100" src="<?php echo base_url();?>/uploads/'+adoptante.foto[clave]["url"]+'">'+
+                '</div>'
+              );
+            }else{
+              $('#fotoAdo').html(
+                contenido+
+                '<div class="carousel-item">'+
+                  '<img class="d-block w-100" src="<?php echo base_url();?>/uploads/'+adoptante.foto[clave]["url"]+'">'+
+                '</div>'
+              );
+            }
+            
+          }
           $('#telefonoAdo').html(adoptante.telefono);
           $('span').css('font-weight', 'bold');
                    
@@ -102,5 +135,14 @@
         }
       })
     });
+  }
+</script>
+
+<script type="text/javascript">
+  function prev(){
+    $('.carousel').carousel('prev');
+  }
+  function next(){
+    $('.carousel').carousel('next');
   }
 </script>

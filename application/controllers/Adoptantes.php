@@ -96,7 +96,7 @@ class Adoptantes extends CI_Controller {
 				"direccion":"Av. Tehuelches 342",
 				"fechaNacimiento":"1990-03-10",
 				"email":"ramuñoz@hotmail.com",
-				"foto":"patio.jpg",
+				"foto":[{"url":"patio.jpg"},{"url":"patio2.jpg"}],
 				"telefono":"2973434245"
 			}';
 		echo $response;

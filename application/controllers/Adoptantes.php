@@ -50,43 +50,45 @@ class Adoptantes extends CI_Controller {
 	    return $campañas;
 	    **/
 	    
-	    /**$respuesta = curl_init();
+	    $respuesta = curl_init();
 	    curl_setopt($respuesta,  CURLOPT_USERAGENT , "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)"); 
-	    curl_setopt($respuesta, CURLOPT_URL, "http://localhost/rescatistaAnimales/index.php/Rescatista_REST/animales");
+	    curl_setopt($respuesta, CURLOPT_URL,"http://192.168.1.42/AdoptaM/index.php/C_Conexion/mostrarAdopciones");
 	    curl_exec($respuesta);
-	    curl_close($respuesta); **/
+	    echo json_encode($respuesta);
+	    curl_close($respuesta);
 
-	    $response=
-			'{"data":
-				[{
-					"id_usuario":4,
-					"id_animal":4,
-					"id_adopcion":1,
-					"estado":1,
-					"detalle_adopcion":"Nada",
-					"fecha_adopcion":"2017-03-10"
-				},
-				{
-					"id_usuario":7,
-					"id_animal":4,
-					"id_adopcion":2,
-					"estado":1,
-					"detalle_adopcion":"Algo",
-					"fecha_adopcion":"2019-03-10"
-				}]
-			}';
-		echo $response;
+		/**$response=
+            '{"data":
+                [{
+                    "id_usuario":1,
+                    "id_animal":4,
+                    "id_adopcion":1,
+                    "estado":1,
+                    "detalle_adopcion":"Nada",
+                    "fecha_adopcion":"2017-03-10"
+                },
+                {
+                    "id_usuario":7,
+                    "id_animal":4,
+                    "id_adopcion":2,
+                    "estado":1,
+                    "detalle_adopcion":"Algo",
+                    "fecha_adopcion":"2019-03-10"
+                }]
+            }';
+           echo $response;**/
 	}
 
-	public function getAdoptante($idAdoptante)
+	public function getAdoptante($id)
 	{
-		/**
+		
 		$respuesta = curl_init();
 	    curl_setopt($respuesta,  CURLOPT_USERAGENT , "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)"); 
-	    curl_setopt($respuesta, CURLOPT_URL, "http://localhost/rescatistaAnimales/index.php/Rescatista_REST/getAdoptante/".$idAdoptante);
+	    curl_setopt($respuesta, CURLOPT_URL, "http://192.168.1.42/AdoptaM/index.php/C_Conexion/darAdoptante/".$id);
 	    curl_exec($respuesta);
+	    echo json_encode($respuesta);
 	    curl_close($respuesta);
-	    **/
+	    /**
 		$response=
 			'{
 				"idAdoptante":4,
@@ -99,7 +101,7 @@ class Adoptantes extends CI_Controller {
 				"foto":[{"url":"patio.jpg"},{"url":"patio2.jpg"}],
 				"telefono":"2973434245"
 			}';
-		echo $response;
+		echo $response;**/
 	}
 
 	public function contestarSolicitud($id_adopcion, $estado){

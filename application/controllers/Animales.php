@@ -109,7 +109,7 @@ class Animales extends CI_Controller {
                		$nuevo->foto=$animal['foto'];
                		$nuevo->fechaRegistro=date("Y-m-d H:i:s");
                		$nuevo->estado=1;
-               		$nuevo->idDueño=$data['id'];
+               		$nuevo->idRescatista=$data['id'];
                		$nuevo->save();
                		redirect(base_url()."index.php/Animales");
                }else{
@@ -144,6 +144,17 @@ class Animales extends CI_Controller {
 			$animal->estado=0;
 			$animal->update();
 			redirect(base_url().'index.php/Animales');
+		}else{
+			redirect(base_url().'index.php/login');
+		}
+	}
+
+	public function asignarDueño($idAnimal,$idDueño)
+	{
+		if ($this->session->userdata('is_logued_in')) {
+			$animal=Animal::find($idAnimal);
+			$animal->idDueño=$idDueño;
+			$animal->update();
 		}else{
 			redirect(base_url().'index.php/login');
 		}

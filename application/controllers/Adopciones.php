@@ -61,8 +61,8 @@ class Adopciones extends CI_Controller {
 			$this->load->view('header', $data);
 			$this->load->view('adopciones/solicitudes',$data);
 			$this->load->view('footer');
-			$this->load->view('animales/detalles_modal');
 			$this->load->view('adopciones/perfil_modal');
+			$this->load->view('animales/detalles_modal');
 		}else{
 			redirect(base_url().'index.php/login');
 		}

@@ -48,8 +48,19 @@
           $('#fechaNacimiento').html(animal.fechaNacimiento);
           $('#fechaRegistro').html(animal.fechaRegistro);
           $('#sexo').html(animal.sexo);
-          $('#estado').html(animal.estado);
-          $('#dueño').html(animal.idDueño);
+          if (animal.estado==0) {
+            $('#estado').html("Eliminado");
+          }else if(animal.estado==1){
+            $('#estado').html("Rescatado");
+          }else{
+            $('#estado').html("Adoptado");
+          }
+          if (animal.idDueño==null) {
+            $('#dueño').html('Sin dueño.');
+          }else{
+            $('#dueño').html(animal.idDueño);
+          }
+          //$('#dueño').html(animal.idDueño);
           $('span').css('font-weight', 'bold');
           //$('.modal-body').css('background-image','url(<?php //echo base_url();?>uploads/'+animal.foto+')');
           $('#foto').attr( "src",'<?php echo base_url();?>uploads/'+animal.foto);

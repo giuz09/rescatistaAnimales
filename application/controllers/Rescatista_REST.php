@@ -58,14 +58,9 @@ class Rescatista_rest extends REST_Controller{
     	$this->response($result, 200);
 	}
 
-	function rescatistas_get()
+	function rescatistas_get($estado='')
 	{
-	    $result = []; 
-	    if ($this->get('estado')) {
-	    	$estado=$this->get('estado');  
-	    }else{
-	    	$estado='';
-	    }  
+	    $result = [];   
 	    $this->load->model('rescatista');
 	    if ($estado!='') {
 	    	$rescatistas=Rescatista::where('estado',$estado)->get();
@@ -75,7 +70,7 @@ class Rescatista_rest extends REST_Controller{
 	    if ($rescatistas!=NULL)
 	    {
 	        $result['codigoRespuesta']= 0;
-	        $result['mensajeRespuesta'] = 'Rescatistas encontrados';
+	        $result['mensajeRespuesta'] = 'Rescatistas encontrados'.$estado;
 	        $result['listaRescatistas'] = $rescatistas;
 	    }
 	    else
@@ -87,10 +82,9 @@ class Rescatista_rest extends REST_Controller{
     	$this->response($result, 200);
 	}
 
-	function animales_get()
+	function animales_get($estado='')
 	{
-	    $result = []; 
-	    $estado = $this->get('estado');   
+	    $result = [];   
 	    $this->load->model('animal');
 	    if ($estado!='') {
 	    	$animales=Animal::where('estado',$estado)->get();

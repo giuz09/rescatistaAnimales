@@ -57,6 +57,9 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
+    if (cargarCampañas) {
+      cargaCampañas();
+    }
     $(".datatable").DataTable({
     language: {
         "decimal": "",
@@ -88,6 +91,34 @@
   }
 
 </script>
+
+<script type="text/javascript">
+  function cargaCampañas(){
+  $.ajax({
+      url     : "<?php echo base_url();?>index.php/Gobierno/obtenerCampanas/",
+      type    : "get",
+      success : (function (data) {
+        campañas=JSON.parse(data);
+        $('#contenidoCamp').html("");
+        //campañas=campañas['data'];
+        for (var clave in campañas){
+          if (campañas.hasOwnProperty(clave)) {
+            var contenido=$('#contenidoCamp').html();
+            $('#contenidoCamp').html(
+              contenido+
+              '<tr>'+
+                '<td>'+campañas[clave]['id_campana']+'</td>'+
+                '<td>'+campañas[clave]['nombreCampana']+'</td>'+
+                '<td>'+campañas[clave]['fecha']+'</td>'+
+                '<td>'+campañas[clave]['ubicacion']+'</td>'+
+              '</tr>'
+              );
+          }
+        }
+      })
+  });
+  }
+    </script>
 
 </body>
 

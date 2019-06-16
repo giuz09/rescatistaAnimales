@@ -52,8 +52,8 @@
       type    : "get",
       success : (function (data) {
         solicitudes=JSON.parse(data);
-        $('contenidoSoli').html("");
-        solicitudes=solicitudes['data'];
+        $('#contenidoSoli').html("");
+        //solicitudes=solicitudes['data'];
         for (var clave in solicitudes){
           if (solicitudes.hasOwnProperty(clave)) {
             var contenido=$('#contenidoSoli').html();
@@ -66,7 +66,7 @@
                 '<td>'+solicitudes[clave]['fecha_adopcion']+'</td>'+
                 '<td>'+solicitudes[clave]['detalle_adopcion']+'</td>'+
                 '<td>'+solicitudes[clave]['estado']+'</td>'+
-                '<td><button class="btn btn-success" onclick="contestar('+solicitudes[clave]['id_adopcion']+',2)">Autorizar</button><button class="btn btn-danger" onclick="contestar('+solicitudes[clave]['id_adopcion']+',0)">Denegar</button></td>'+
+                '<td><button class="btn btn-success" onclick="contestar('+solicitudes[clave]['id_adopcion']+',2,'+solicitudes[clave]['id_usuario']+')">Autorizar</button><button class="btn btn-danger" onclick="contestar('+solicitudes[clave]['id_adopcion']+',0, 0)">Denegar</button></td>'+
               '</tr>'
               );
           }
@@ -82,33 +82,33 @@
       success : (function (data) {
         adoptante=JSON.parse(data);
         if (adoptante!=null) {
-          $('#nombreAdo').html(adoptante.nombre);
-          $('#apellidoAdo').html(adoptante.apellido);
-          $('#dniAdo').html(adoptante.dni);
-          $('#direccionAdo').html(adoptante.direccion);
-          $('#fechaNacimientoAdo').html(adoptante.fechaNacimiento);
-          $('#emailAdo').html(adoptante.email);
+          $('#nombreAdo').html(adoptante.nombre_usuario);
+          $('#apellidoAdo').html(adoptante.apellido_usuario);
+          $('#dniAdo').html(adoptante.dni_usuario);
+          $('#direccionAdo').html(adoptante.domicilio_usuario);
+          $('#fechaNacimientoAdo').html(adoptante.fecha_nacimiento);
+          $('#emailAdo').html(adoptante.email_usuario);
           $('#fotoAdo').html("");
-          for (var clave in adoptante.foto){
+          for (var clave in adoptante.imagenes){
             var contenido=$('#fotoAdo').html();
             if (clave==0) {
               $('#fotoAdo').html(
                 contenido+
                 '<div class="carousel-item active">'+
-                  '<img class="d-block w-100" src="<?php echo base_url();?>/uploads/'+adoptante.foto[clave]["url"]+'">'+
+                  '<img class="d-block w-100" src="http://192.168.1.42/AdoptaM/assets/img/'+adoptante.imagenes[clave]["path"]+'">'+
                 '</div>'
               );
             }else{
               $('#fotoAdo').html(
                 contenido+
                 '<div class="carousel-item">'+
-                  '<img class="d-block w-100" src="<?php echo base_url();?>/uploads/'+adoptante.foto[clave]["url"]+'">'+
+                  '<img class="d-block w-100" src="http://192.168.1.42/AdoptaM/assets/img/'+adoptante.imagenes[clave]["path"]+'">'+
                 '</div>'
               );
             }
             
           }
-          $('#telefonoAdo').html(adoptante.telefono);
+          $('#telefonoAdo').html(adoptante.telefono_usuario);
           $('span').css('font-weight', 'bold');
                    
         }
@@ -120,8 +120,13 @@
  
 </script>
 <script type="text/javascript">
-   function contestar(id,estado) {
-    
+   function contestar(id,estado,dueño) {
+    if (estado==2) {
+      $.ajax({
+        url     : "<?php echo base_url();?>index.php/Animales/asignarDueño/"+id+"/"+dueño,
+        type    : "get"
+      });
+    }
     $.ajax({
       url     : "<?php echo base_url();?>index.php/Adoptantes/contestarSolicitud/"+id+"/"+estado,
       type    : "get",

@@ -31,19 +31,26 @@
 			echo ("<td>".$animal->especie."</td>");	
 			echo ("<td>".$animal->raza."</td>");
 			echo ("<td>".$animal->fechaNacimiento."</td>");
-			if ($animal->estado==1 && $animal->idDueño==$id) {
-				$estado="Pendiente";
+			if ($animal->estado==1 && $animal->idRescatista==$id) {
+				$estado="Rescatado";
 				$botones="	
 					<button class='btn btn-primary' onclick='modificar(".$animal->idAnimal.")'><span class='fa fa-edit' aria-hidden='true'></button>
 					<button class='btn btn-danger' onclick='darBaja(".$animal->idAnimal.")'><span class='fa fa-trash' aria-hidden='true'></span></button>
 						";
-			}elseif ($animal->estado==2) {
+			}elseif ($animal->estado==2 && $animal->idRescatista==$id ) {
 				$estado="Adoptado";
 				$botones="	
 					<button class='btn btn-danger' onclick='darBaja(".$animal->idAnimal.")'><i class='fa fa-trash' aria-hidden='true'></i></button>
 						";
 			}else{
-				$estado="Eliminado";
+				if ($animal->estado==0) {
+					$estado="Eliminado";
+				}elseif ($animal->estado==0) {
+					$estado="Rescatado";
+				}else{
+					$estado="Adoptado";
+				}
+				
 				$botones="	
 					None
 						";

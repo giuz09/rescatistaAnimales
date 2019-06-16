@@ -32,9 +32,9 @@ class Gobierno extends CI_Controller {
 		}
 	}
 
-	public function obtenerCampañas($id)
+	public function obtenerCampanas()
 	{
-	    $this->load->library('rest', array(
+	    /**$this->load->library('rest', array(
 	        'server' => 'http://localhost/restserver/index.php/example_api/',
 	        'http_user' => 'admin',
 	        'http_pass' => '1234',
@@ -44,6 +44,30 @@ class Gobierno extends CI_Controller {
 	    $campañas = $this->rest->get('user', array('id' => $id), 'json');
 	     
 	    return $campañas;
+	    **/
+
+	    $ejResponse='
+	    	[
+	    		{
+	    			"id_campana":"1",
+	    			"nombreCampana":"Vacunacion",
+	    			"fecha":"2019-06-21",
+	    			"ubicacion":"KM3"
+	    		},
+	    		{
+	    			"id_campana":"2",
+	    			"nombreCampana":"Esterilizacion",
+	    			"fecha":"2019-06-21",
+	    			"ubicacion":"Km20"
+	    		}
+	    	]';
+	    echo $ejResponse;
+	    /**$respuesta = curl_init();
+	    curl_setopt($respuesta,  CURLOPT_USERAGENT , "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)"); 
+	    curl_setopt($respuesta, CURLOPT_URL, "http://192.168.1.4/rescatistaAnimales/index.php/Rescatista_REST/getAdoptante/".$idAdoptante);
+	    curl_exec($respuesta);
+	    curl_close($respuesta);
+	    echo $respuesta;**/
 	}
 
 

@@ -326,7 +326,9 @@
 
         </nav>
         <!-- End of Topbar -->
-          
+          <script type="text/javascript">
+            var cargarCampañas=false;
+          </script>
             
 
         

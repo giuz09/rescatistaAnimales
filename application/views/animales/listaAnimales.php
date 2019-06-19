@@ -45,7 +45,7 @@
 			}else{
 				if ($animal->estado==0) {
 					$estado="Eliminado";
-				}elseif ($animal->estado==0) {
+				}elseif ($animal->estado==1) {
 					$estado="Rescatado";
 				}else{
 					$estado="Adoptado";

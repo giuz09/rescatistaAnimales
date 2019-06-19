@@ -19,6 +19,8 @@ class Gobierno extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
+
+	$ip_adoptante="192.168.1.4";
 	public function index()
 	{
 		//file_get_contents();
@@ -45,7 +47,7 @@ class Gobierno extends CI_Controller {
 	     
 	    return $campañas;
 	    **/
-
+/**
 	    $ejResponse='
 	    	[
 	    		{
@@ -61,13 +63,13 @@ class Gobierno extends CI_Controller {
 	    			"ubicacion":"Km20"
 	    		}
 	    	]';
-	    echo $ejResponse;
-	    /**$respuesta = curl_init();
+	    echo $ejResponse;**/
+	    $respuesta = curl_init();
 	    curl_setopt($respuesta,  CURLOPT_USERAGENT , "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)"); 
-	    curl_setopt($respuesta, CURLOPT_URL, "http://192.168.1.4/rescatistaAnimales/index.php/Rescatista_REST/getAdoptante/".$idAdoptante);
+	    curl_setopt($respuesta, CURLOPT_URL, "http://".$ip_gobierno."/gobierno/index.php/api_campanas");
 	    curl_exec($respuesta);
+	    echo json_encode($respuesta);
 	    curl_close($respuesta);
-	    echo $respuesta;**/
 	}
 
 

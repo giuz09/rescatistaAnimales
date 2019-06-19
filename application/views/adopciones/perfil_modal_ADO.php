@@ -52,13 +52,12 @@
       type    : "get",
       success : (function (data) {
         solicitudes=JSON.parse(data);
-        $('#contenidoSoli').html("");
+        $('#contenidoAdo').html("");
         //solicitudes=solicitudes['data'];
         for (var clave in solicitudes){
-          if (solicitudes.hasOwnProperty(clave) && solicitudes[clave]['estado']==1) {
-            var contenido=$('#contenidoSoli').html();
-            var botones='<td id="botones"></td>';
-            $('#contenidoSoli').html(
+          if (solicitudes.hasOwnProperty(clave)) {
+            var contenido=$('#contenidoAdo').html();
+            $('#contenidoAdo').html(
               contenido+
               '<tr>'+
                 '<td>'+solicitudes[clave]['id_adopcion']+'</td>'+
@@ -67,11 +66,8 @@
                 '<td>'+solicitudes[clave]['fecha_adopcion']+'</td>'+
                 '<td>'+solicitudes[clave]['detalle_adopcion']+'</td>'+
                 '<td>'+solicitudes[clave]['estado']+'</td>'+
-                botones+
               '</tr>'
               );
-            var dcif='<button class="btn btn-success" onclick="contestar('+solicitudes[clave]['id_adopcion']+',2,'+solicitudes[clave]['id_usuario']+','+solicitudes[clave]['id_animal']+')">Autorizar</button><button class="btn btn-danger" onclick="contestar('+solicitudes[clave]['id_adopcion']+',3, 0,'+solicitudes[clave]['id_animal']+')">Denegar</button>';
-            verificaMascota(solicitudes[clave]['id_animal'], dcif);
           }
         }
       })
@@ -121,40 +117,6 @@
   }
 
  
-</script>
-<script type="text/javascript">
-  function contestar(id,estado,dueño, idAnimal) {
-    if (estado==2) {
-      $.ajax({
-        url     : "<?php echo base_url();?>index.php/Animales/asignarDueno/"+idAnimal+"/"+dueño,
-        type    : "get"
-      });
-    }
-    $.ajax({
-      url     : "<?php echo base_url();?>index.php/Adoptantes/contestarSolicitud/"+id+"/"+estado,
-      type    : "get",
-      success : (function (data) {
-        data=JSON.parse(data);
-        if(data){
-          location.reload();
-        }else{
-          alert("Todo Mal! "+data.mensajeRespuesta);
-        }
-      })
-    });
-  }
-
-  function verificaMascota(idAnimal, cadena) {
-    $.ajax({
-      url     : "<?php echo base_url();?>index.php/Animales/comprobarAnimal/"+idAnimal+"/<?php echo $id;?>",
-      type    : "get",
-      success : (function (data) {
-        if(data=='true'){
-          $('#botones').html(cadena);
-        }
-      })
-    });
-  }
 </script>
 
 <script type="text/javascript">

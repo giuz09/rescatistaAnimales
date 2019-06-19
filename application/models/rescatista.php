@@ -19,6 +19,8 @@ class Rescatista extends Eloquent{
     	}
     	return $valido;
     }
+
+    
 }
 
 //$cliente = Cliente ::find($user); devuelve un usuario de acuerdo al nombre de usuario en $user

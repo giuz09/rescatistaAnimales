@@ -40,8 +40,10 @@ class Adopciones extends CI_Controller {
 			$data['adopciones']=null;
 
 			$this->load->view('header', $data);
-			$this->load->view('adopciones/adopciones',$data);
+			$this->load->view('adopciones/adopciones');
 			$this->load->view('footer');
+			$this->load->view('animales/detalles_modal');
+			$this->load->view('adopciones/perfil_modal_ADO');
 		}else{
 			redirect(base_url().'index.php/login');
 		}
@@ -61,8 +63,8 @@ class Adopciones extends CI_Controller {
 			$this->load->view('header', $data);
 			$this->load->view('adopciones/solicitudes',$data);
 			$this->load->view('footer');
-			$this->load->view('adopciones/perfil_modal');
 			$this->load->view('animales/detalles_modal');
+			$this->load->view('adopciones/perfil_modal');
 		}else{
 			redirect(base_url().'index.php/login');
 		}

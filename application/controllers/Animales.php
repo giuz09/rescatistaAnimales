@@ -149,12 +149,27 @@ class Animales extends CI_Controller {
 		}
 	}
 
-	public function asignarDueño($idAnimal,$idDueño)
+	public function asignarDueno($idAnimal,$idDueño)
 	{
 		if ($this->session->userdata('is_logued_in')) {
 			$animal=Animal::find($idAnimal);
 			$animal->idDueño=$idDueño;
+			$animal->estado=2;
 			$animal->update();
+		}else{
+			redirect(base_url().'index.php/login');
+		}
+	}
+
+	public function comprobarAnimal($idAnimal, $user)
+	{
+		if ($this->session->userdata('is_logued_in')) {
+			$animal=Animal::where('idAnimal',$idAnimal)->first();
+			if ($animal->idRescatista==$this->session->userdata('id')) {
+				echo 'true';
+			}else{
+				echo 'false';
+			}
 		}else{
 			redirect(base_url().'index.php/login');
 		}

@@ -63,9 +63,9 @@ class Rescatista_rest extends REST_Controller{
 	    $result = [];   
 	    $this->load->model('rescatista');
 	    if ($estado!='') {
-	    	$rescatistas=Rescatista::where('estado',$estado)->get();
+	    	$rescatistas=Rescatista::select('idRescatista','dni','nombre','apellido','email','direccion','fechaNacimiento','telefono','estado')->where('estado',$estado)->get();
 	    }else{
-	    	$rescatistas=Rescatista::all();
+	    	$rescatistas=Rescatista::select('idRescatista','dni','nombre','apellido','email','direccion','fechaNacimiento','telefono','estado')->all();
 	    }
 	    if ($rescatistas!=NULL)
 	    {
@@ -110,22 +110,26 @@ class Rescatista_rest extends REST_Controller{
 	//Requiere dos parametros:
 	//	'dni' con el dni del rescatista a modificar
 	//	'estado' con el nuevo estado del rescatista
-	function adopcion_post()
+	function estadistica_get()
 	{
-	    $result = [];    
-	    $id_adopcion = $this->post('id_adopcion');		//Recupera los parametros
-	    $estado = $this->post('estado');//Recupera los parametros
-			if ($estado==2) {
-				$result['codigoRespuesta']= 0;
-	        	$result['mensajeRespuesta'] = 'Adopcion aprobada';
-			}elseif ($estado==0) {
-				$result['codigoRespuesta']= 0;
-	        	$result['mensajeRespuesta'] = 'Adopcion denegada';
-			}else{
-				$result['codigoRespuesta']    = 1;
-	        	$result['mensajeRespuesta'] = 'No se encontró';
-			}
-    	$this->response($result, 200);
+	    $this->load->model('estadistica');
+	    $estadistica=Estadistica::get()->first();
+    	$this->response($estadistica, 200);
+	}
+
+	function rescates_get(){
+		$this->load->model('rescatista');
+		$this->load->model('animal');
+		$respuesta=array();
+		$rescatistas=Rescatista::get();
+		$i=0;
+		foreach ($rescatistas as $rescatista) {
+			$contador=Animal::where('idRescatista',$rescatista->idRescatista)->get()->count();
+			$respuesta[$i]['nombre']=$rescatista->nombre." ".$rescatista->apellido;
+			$respuesta[$i]['cantidad']=$contador;
+			$i++;
+		}
+		$this->response($respuesta);
 	}
 }
 

@@ -20,6 +20,8 @@ class Adoptantes extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
+	$ip_adoptante="192.168.1.2";
+
 	public function index()
 	{
 		//file_get_contents();
@@ -52,16 +54,16 @@ class Adoptantes extends CI_Controller {
 	    
 	    $respuesta = curl_init();
 	    curl_setopt($respuesta,  CURLOPT_USERAGENT , "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)"); 
-	    curl_setopt($respuesta, CURLOPT_URL,"http://192.168.1.42/AdoptaM/index.php/C_Conexion/mostrarAdopciones");
+	    curl_setopt($respuesta, CURLOPT_URL,"http://".$ip_adoptante."/AdoptaM/index.php/C_Conexion/mostrarAdopciones");
 	    curl_exec($respuesta);
 	    echo json_encode($respuesta);
 	    curl_close($respuesta);
-
-		/**$response=
-            '{"data":
+/**
+		$response=
+            '
                 [{
                     "id_usuario":1,
-                    "id_animal":4,
+                    "id_animal":2,
                     "id_adopcion":1,
                     "estado":1,
                     "detalle_adopcion":"Nada",
@@ -69,52 +71,56 @@ class Adoptantes extends CI_Controller {
                 },
                 {
                     "id_usuario":7,
-                    "id_animal":4,
+                    "id_animal":7,
                     "id_adopcion":2,
                     "estado":1,
                     "detalle_adopcion":"Algo",
                     "fecha_adopcion":"2019-03-10"
                 }]
-            }';
+            ';
            echo $response;**/
 	}
 
 	public function getAdoptante($id)
 	{
 		
+		
 		$respuesta = curl_init();
 	    curl_setopt($respuesta,  CURLOPT_USERAGENT , "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)"); 
-	    curl_setopt($respuesta, CURLOPT_URL, "http://192.168.1.42/AdoptaM/index.php/C_Conexion/darAdoptante/".$id);
+	    curl_setopt($respuesta, CURLOPT_URL, "http://".$ip_adoptante."/AdoptaM/index.php/C_Conexion/darAdoptante/".$id);
 	    curl_exec($respuesta);
 	    echo json_encode($respuesta);
 	    curl_close($respuesta);
 	    /**
 		$response=
 			'{
-				"idAdoptante":4,
-				"nombre":"Ramiro",
-				"apellido":"Muñoz",
-				"dni":"29435343",
-				"direccion":"Av. Tehuelches 342",
-				"fechaNacimiento":"1990-03-10",
-				"email":"ramuñoz@hotmail.com",
-				"foto":[{"url":"patio.jpg"},{"url":"patio2.jpg"}],
-				"telefono":"2973434245"
+				"id_usuario":4,
+				"nombre_usuario":"Ramiro",
+				"apellido_usuario":"Muñoz",
+				"dni_usuario":"29435343",
+				"domicilio_usuario":"Av. Tehuelches 342",
+				"fecha_nacimiento":"1990-03-10",
+				"email_usuario":"ramuñoz@hotmail.com",
+				"imagenes":[{"path":"patio.jpg"},{"path":"patio2.jpg"}],
+				"telefono_usuario":"2973434245"
 			}';
 		echo $response;**/
 	}
 
 	public function contestarSolicitud($id_adopcion, $estado){
 		$respuesta = curl_init();
+		if ($estado==3) {
+			$estado='0';
+		}
 	    curl_setopt($respuesta,  CURLOPT_USERAGENT , "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)"); 
-	    curl_setopt($respuesta, CURLOPT_URL, "http://localhost/rescatistaAnimales/index.php/Rescatista_REST/adopcion");
+	    curl_setopt($respuesta, CURLOPT_URL, "http://".$ip_adoptante."/AdoptaM/index.php/C_Conexion/modificarAdopciones");
 	    curl_setopt($respuesta, CURLOPT_POST, 1);
 		curl_setopt($respuesta, CURLOPT_POSTFIELDS, "id_adopcion=".$id_adopcion."&estado=".$estado.";");
 	    curl_exec($respuesta);
 	    if (curl_error($respuesta)) {
     		$response = curl_error($respuesta);
 		}else{
-			$response = "";
+			$response = "{}";
 		}
 		curl_close($respuesta);
 		echo $response;
